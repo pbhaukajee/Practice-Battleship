@@ -1,17 +1,17 @@
 //STEP1:DOM
 const optionContainer = document.querySelector(".option-container");
-const flipButton = document.querySelector("#flip-button");
+const rotateButton = document.querySelector("#rotate-button");
 const gamesBoardContainer = document.querySelector("#gamesboard-container");
 const startButton = document.querySelector("#start-button");
 const infoDisplay = document.querySelector("#info");
 const turnDisplay = document.querySelector("#turn-display");
 
-//STEP2:Logic to flip ships
+//STEP2:Logic to rotate ships
 //Step2c:
 let angle = 0;
 
 //Step2a:
-function flip() {
+function rotate() {
   //Array.from changes items into list of array
   const optionShips = Array.from(optionContainer.children);
 
@@ -25,7 +25,7 @@ function flip() {
 }
 
 //Step2b:
-flipButton.addEventListener("click", flip);
+rotateButton.addEventListener("click", rotate);
 
 //STEP3:Creating Boards
 //Step3a: We want our boards to be 10X10
@@ -36,8 +36,11 @@ function createBoard(user) {
   //create div and inject into the gameboardContainer
   const gameBoardContainer = document.createElement("div");
   gameBoardContainer.classList.add("game-board");
-
   gameBoardContainer.id = user;
+
+  const title = document.createElement("div");
+  title.innerHTML = `${user}'s Board`;
+  gameBoardContainer.classList.add("title");
 
   //Step3c:create square blocks inside board
   for (let i = 0; i < width * width; i++) {
@@ -46,7 +49,8 @@ function createBoard(user) {
     block.id = i;
     gameBoardContainer.append(block);
   }
-  gamesBoardContainer.append(gameBoardContainer);
+  gameBoardContainer.appendChild(title);
+  gamesBoardContainer.appendChild(gameBoardContainer);
 }
 
 createBoard("player");
@@ -243,15 +247,14 @@ function startGame() {
   if (playerTurn === undefined) {
     //step8d: only want to start the game if all the pieces are in the container
     if (optionContainer.children.length !== 0) {
-      infoDisplay.textContent = "Please place all your pieces first";
+      // infoDisplay.textContent = "Please place all your blocks first";
+      prompt("Please place all your blocks first");
     } else {
       const allBoardBlocks = document.querySelectorAll("#computer div");
       allBoardBlocks.forEach((block) =>
         block.addEventListener("click", handleClick)
       );
       playerTurn = true;
-      turnDisplay.textContent = "Your GO!";
-      infoDisplay.textContent = "The game has started!";
     }
   }
 }
@@ -273,7 +276,6 @@ function handleClick(e) {
     //if we hit the ship block of the computer, add boom
     if (e.target.classList.contains("taken")) {
       e.target.classList.add("boom");
-      infoDisplay.textContent = "You hit the computer's ship!";
 
       //we want to just take the ship name from the class to make sure ship is sunk (I checked the elements while inspecting to see what classes are their in the ship that was hit)
       let classes = Array.from(e.target.classList);
@@ -287,7 +289,6 @@ function handleClick(e) {
     }
 
     if (!e.target.classList.contains("taken")) {
-      infoDisplay.textContent = "Nothing hit this time";
       e.target.classList.add("empty");
     }
     playerTurn = false;
@@ -295,15 +296,13 @@ function handleClick(e) {
 
     //remove eventlistener 1:28min
     allBoardBlocks.forEach((block) => block.replaceWith(block.cloneNode(true)));
-    setTimeout(computerGo, 1000);
+    setTimeout(computerGo, 500);
   }
 }
 
 //step8f: define computer go
 function computerGo() {
   if (!gameOver) {
-    turnDisplay.textContent = "Computers Go!";
-    infoDisplay.textContent = "The computer is thinking...";
     setTimeout(() => {
       let randomGo = Math.floor(Math.random() * width * width);
       const allBoardBlocks = document.querySelectorAll("#player div");
@@ -319,7 +318,6 @@ function computerGo() {
         !allBoardBlocks[randomGo].classList.contains("boom")
       ) {
         allBoardBlocks[randomGo].classList.add("boom");
-        infoDisplay.textContent = "The computer hit your ship!";
 
         let classes = Array.from(e.target.classList);
         classes = classes.filter((className) => className !== "block");
@@ -329,23 +327,20 @@ function computerGo() {
         //step9d:
         checkScore("computer", computerHits, computerSunkShips);
       } else {
-        infoDisplay.textContent = "Nothing hit this time.";
         allBoardBlocks[randomGo].classList.add("empty");
       }
-    }, 1000);
+    }, 500);
 
     //change the turn
     setTimeout(() => {
       playerTurn = true;
-      turnDisplay.textContent = "Your Go!";
-      infoDisplay.textContent = "Please take your go.";
 
       //Add the event listener of computer back 1:34mins
       const allBoardBlocks = document.querySelectorAll("#computer div");
       allBoardBlocks.forEach((block) =>
         block.addEventListener("click", handleClick)
       );
-    }, 2000);
+    }, 1000);
   }
 }
 
@@ -359,18 +354,15 @@ function checkScore(user, userHits, userSunkShips) {
     ) {
       //step9b: we want to remove the ship from playerhit once its sunken
       if (user === "player") {
-        infoDisplay.textContent = `you sunk the computer's ${shipName}`;
         playerHits = userHits.filter(
           (storedShipName) => storedShipName !== shipName
         );
       }
       if (user === "computer") {
-        infoDisplay.textContent = `The computer sunk your ${shipName}`;
         computerHits = userHits.filter(
           (storedShipName) => storedShipName !== shipName
         );
       }
-      userSunkShips.push(shipName);
     }
   }
 
