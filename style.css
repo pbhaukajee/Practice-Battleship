@@ -1,20 +1,12 @@
 body {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-}
-main {
-  margin: 50px auto;
-}
-
-h1 {
-  margin-top: 50px;
+  align-items: center;
 }
 
 #gamesboard-container {
   display: flex;
-  justify-content: space-between;
   gap: 50px;
 }
 
@@ -33,37 +25,23 @@ h1 {
   box-sizing: border-box;
 }
 
-.option-container {
-  width: 500px;
-  height: 60px;
-  margin: 30px 0;
+.blocks-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
+.option-container {
+  width: 625px;
+  height: 40px;
+  margin: 60px 0;
   display: flex;
   align-items: center;
   cursor: pointer;
 }
 
-.destroyer,
-.submarine,
-.cruiser,
-.battleship,
-.carrier {
-  background-color: rgb(225, 176, 242);
-}
-
-.submarine {
-  background-color: rgb(132, 218, 204);
-}
-.cruiser {
-  background-color: rgb(255, 200, 0);
-}
-
-.battleship {
-  background-color: rgb(163, 183, 234);
-}
-
-.carrier {
-  background-color: rgb(255, 165, 127);
+.destroyer {
+  background-color: rgb(186, 118, 118);
 }
 
 .destroyer-preview {
@@ -72,10 +50,18 @@ h1 {
   margin: 3px;
 }
 
+.submarine {
+  background-color: rgb(137, 204, 137);
+}
+
 .submarine-preview {
   width: 30px;
   height: 10px;
   margin: 3px;
+}
+
+.cruiser {
+  background-color: rgb(220, 156, 220);
 }
 
 .cruiser-preview {
@@ -84,10 +70,18 @@ h1 {
   margin: 3px;
 }
 
+.battleship {
+  background-color: rgb(236, 198, 126);
+}
+
 .battleship-preview {
   width: 40px;
   height: 10px;
   margin: 3px;
+}
+
+.carrier {
+  background-color: rgb(132, 132, 233);
 }
 
 .carrier-preview {
@@ -97,7 +91,7 @@ h1 {
 }
 
 .hover {
-  background-color: rgb(200, 190, 190);
+  background-color: gray;
 }
 
 #computer .destroyer,
@@ -113,21 +107,30 @@ h1 {
 }
 
 .empty {
-  background-color: rgb(189, 183, 183) !important;
+  background-color: rgb(170, 168, 168) !important;
+}
+
+.title {
+  text-transform: capitalize;
+  font-size: larger;
+  font-weight: 700;
+}
+
+p {
+  font-weight: 700;
 }
 
 button {
   cursor: pointer;
+  width: 150px;
+  height: 25px;
+  background-color: rgb(135, 139, 237);
+  border-radius: 10px;
+  border: 0.5px solid rgb(121, 153, 226);
+  color: white;
 }
 
-.block-container {
+.buttons {
   display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.title {
-  font-size: larger;
-  text-transform: capitalize;
-  font-weight: 600;
+  gap: 50px;
 }
