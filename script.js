@@ -32,11 +32,11 @@ flipButton.addEventListener("click", flip);
 const width = 10;
 
 //Step3b
-function createBoard(color, user) {
+function createBoard(user) {
   //create div and inject into the gameboardContainer
   const gameBoardContainer = document.createElement("div");
   gameBoardContainer.classList.add("game-board");
-  gameBoardContainer.style.backgroundColor = color;
+
   gameBoardContainer.id = user;
 
   //Step3c:create square blocks inside board
@@ -49,8 +49,8 @@ function createBoard(color, user) {
   gamesBoardContainer.append(gameBoardContainer);
 }
 
-createBoard("yellow", "player");
-createBoard("pink", "computer");
+createBoard("player");
+createBoard("computer");
 
 //STEP4 Creating Ships:
 //Step4a Create Ship classes
@@ -316,7 +316,7 @@ function computerGo() {
         return;
       } else if (
         allBoardBlocks[randomGo].classList.contains("taken") &&
-        allBoardBlocks[randomGo].classList.contains("boom")
+        !allBoardBlocks[randomGo].classList.contains("boom")
       ) {
         allBoardBlocks[randomGo].classList.add("boom");
         infoDisplay.textContent = "The computer hit your ship!";
